@@ -1,20 +1,28 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Signal and Slot Example</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signal and Slot Example</title>
-</head>
+    <body>
+        <div class="form-like">
+            <label for="userAge">I'm a curious motherfucker:</label> &nbsp;
+            <input type="text" id="userAge" name="userAge" placeholder="how old?" /><br />
+            <label for="userAction">I challenge you:</label> &nbsp;
+            <button id="userAction">do not click</button><br />
+        </div>
+        <script type="text/javascript" src="main.js"></script>
+        <script>
+            const ageInput = document.getElementById("userAge")
+            const ageChanged = Signal.fromEvent(ageInput, "textChanged")
+            const actionButton = document.getElementById("userAction")
+            const action = Signal.fromEvent(actionButton, "clicked")
 
-<body>
-    <button id="testButton">Do not click me</button>
-    <script type="text/javascript" src="idea.js"></script>
-    <script>
-         const htmlButton = document.getElementById("testButton")
-         const button = new Button(htmlButton)
-         const app = new App(button)
-    </script>
-</body>
-
+            const app = new App()
+            ageChanged.connect(app, app.onNewAge)
+            action.connect(app, app.onAction)
+        </script>
+    </body>
 </html>
