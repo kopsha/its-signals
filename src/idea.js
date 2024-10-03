@@ -1,43 +1,43 @@
 class Signal {
     constructor() {
-        this.slots = [];
+        this.slots = []
     }
 
-    connect(slot) {
-        if (typeof slot === 'function') {
-            this.slots.push(slot);
+    connect(receiver, slot) {
+        if (
+            typeof receiver[slot.name] === "function" &&
+            slot === receiver[slot.name]
+        ) {
+            this.slots.push(slot.bind(receiver))
         } else {
-            console.error('Slot must be a function');
+            console.error(
+                `${slot.name} is not a valid function on the receiver ${receiver.constructor.name}.`,
+            )
         }
     }
 
     emit(...args) {
-        this.slots.forEach(slot => slot(...args));
+        this.slots.forEach((slot) => slot(...args))
     }
 }
 
-class Button {
-    constructor(element) {
-        this.clicked = new Signal();
-        this.element = element
-        this.element.addEventListener("click", () => this.onClick())
-    }
-
-    onClick() {
-        console.log('Emit click signal');
-        this.clicked.emit('hello from button');
+class Button extends Signal {
+    constructor(htmlElement) {
+        super()
+        this.htmlElement = htmlElement
+        this.htmlElement.addEventListener("click", () => {
+            const now = Date.now()
+            this.emit("Hello from button", now)
+        })
     }
 }
 
 class App {
-    constructor() {
-        this.button = new Button(document.getElementById("testButton"));
-        this.button.clicked.connect(this.onButtonClicked);
+    constructor(button) {
+        button.connect(this, this.onButtonClicked)
     }
 
-    onButtonClicked(message) {
-        console.log('Slot received message:', message);
+    onButtonClicked(...messages) {
+        console.log("Signal received:", messages)
     }
 }
-
-
