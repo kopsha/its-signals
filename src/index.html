@@ -16,13 +16,14 @@
         <script type="text/javascript" src="main.js"></script>
         <script>
             const ageInput = document.getElementById("userAge")
-            const ageChanged = Signal.fromEvent(ageInput, "textChanged")
+            const ageChanged = Signal.fromEvent(ageInput, "input")
             const actionButton = document.getElementById("userAction")
-            const action = Signal.fromEvent(actionButton, "clicked")
+            const reaction = Signal.fromEvent(actionButton, "click")
 
-            const app = new App()
-            ageChanged.connect(app, app.onNewAge)
-            action.connect(app, app.onAction)
+            const uploader = new InterestedHandler()
+            ageChanged.connect(uploader, uploader.onAgeChanged)
+            reaction.connect(uploader, uploader.onReaction)
+            console.log("everything is connected.")
         </script>
     </body>
 </html>

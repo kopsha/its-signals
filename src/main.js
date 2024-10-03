@@ -1,9 +1,18 @@
 class Signal {
     #slots = []
 
+    static fromEvent(element, event) {
+        console.assert(element instanceof EventTarget)
+        let instance = new Signal()
+        element.addEventListener(event, e => instance.emit(e.target.value))
+        return instance
+    }
+
     connect(receiver, slot) {
-        if (typeof slot !== "function") {
-            throw new Error(`${slot.name} is not a function of ${receiver.constructor.name}.`)
+        if (!receiver || !slot) {
+            throw new Error("Expected both receiver and slot arguments.")
+        } else if (typeof slot !== "function") {
+            throw new Error(`${slot} is not a function of ${receiver.constructor.name}.`)
         }
 
         const alreadyConnected = this.#slots.some(
@@ -17,13 +26,17 @@ class Signal {
         this.#slots.push({ receiver, slot, boundSlot })
     }
 
+    isConnected() {
+        return boolean(this.#slots)
+    }
+
     emit(...args) {
         this.#slots.forEach(({ boundSlot }) => {
             queueMicrotask(() => boundSlot(...args))
         })
     }
 
-    disconnect({ receiver = null, slot = null }) {
+    disconnect(slot = null, receiver = null) {
         if (receiver && slot) {
             this.#slots = this.#slots.filter(s => s.receiver !== receiver || s.slot !== slot)
         } else if (receiver) {
@@ -34,16 +47,34 @@ class Signal {
     }
 }
 
-class App {
-    #counter = 0
+class InterestedHandler {
+    finished = new Signal()
+    #left = 0
+    #right = 0
 
-    onAgeChanged(...messages) {
-        this.#counter++
-        console.log("age changed:", messages, this.#counter, "times.")
+    constructor() {
+        this.finished.connect(this, this.onFinished)
     }
 
-    onAction(...messages) {
-        this.#counter++
-        console.log("new action:", messages, this.#counter, "times.")
+    onAgeChanged(...messages) {
+        this.#left++
+        console.log("age changed:", messages, this.#left, "times.")
+        if (this.#left && this.#right) {
+            this.finished.emit()
+            this.finished.disconnect()
+        }
+    }
+
+    onReaction(...messages) {
+        this.#right++
+        console.log("new action:", messages, this.#right, "times.")
+        if (this.#left && this.#right) {
+            this.finished.emit()
+            this.finished.disconnect()
+        }
+    }
+
+    onFinished(...messages) {
+        console.log("finished...")
     }
 }

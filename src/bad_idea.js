@@ -6,19 +6,17 @@ class Signal {
     connect(receiver, slot) {
         if (typeof slot === "function") {
             const alreadyConnected = this.slots.some(
-                (s) => s.slot === slot && s.receiver === receiver,
+                s => s.slot === slot && s.receiver === receiver
             )
             if (alreadyConnected) {
-                console.warn(
-                    `${slot.name} is already connected to this signal.`,
-                )
+                console.warn(`${slot.name} is already connected to this signal.`)
             } else {
                 const boundSlot = slot.bind(receiver)
                 this.slots.push({ receiver, slot, boundSlot })
             }
         } else {
             console.error(
-                `${slot.name} is not a valid function of ${receiver.constructor.name}.`,
+                `${slot.name} is not a valid function of ${receiver.constructor.name}.`
             )
         }
     }
@@ -31,11 +29,9 @@ class Signal {
 
     disconnect(receiver, slot) {
         if (receiver && slot) {
-            this.slots = this.slots.filter(
-                (s) => s.receiver !== receiver || s.slot !== slot,
-            )
+            this.slots = this.slots.filter(s => s.receiver !== receiver || s.slot !== slot)
         } else if (receiver) {
-            this.slots = this.slots.filter((s) => s.receiver !== receiver)
+            this.slots = this.slots.filter(s => s.receiver !== receiver)
         } else {
             this.slots = []
         }
