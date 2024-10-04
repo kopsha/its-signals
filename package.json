@@ -2,7 +2,7 @@
     "name": "its-signals",
     "version": "0.0.1",
     "description": "It's signals Jerry, it's signals.",
-    "main": "main.js",
+    "main": "src/main.js",
     "repository": "git@github.com:kopsha/signals-js.git",
     "author": "Florin Ciurcanu <florin.ciurcanu@gmail.com>",
     "license": "GPL-3.0-only",
