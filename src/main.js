@@ -1,4 +1,4 @@
-class Signal {
+export default class Signal {
     #slots = []
 
     static fromEvent(element, event) {
