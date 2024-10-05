@@ -14,7 +14,10 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
             - run: npm ci
             - run: npm run test
-            - run: npm version $(git describe) --no-git-tag-version
+            - name: git describe
+              uses: proudust/gh-describe@v2
+              id: ghd
+            - run: npm version ${{ steps.ghd.outputs.describe }} --no-git-tag-version
             - run: npm publish --dry-run --provenance --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
