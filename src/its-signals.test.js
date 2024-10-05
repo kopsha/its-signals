@@ -8,19 +8,17 @@ test("Connect and Emit", () => {
     let receiverCalled = false
     const receiver = {
         handleEvent(value) {
-            console.log("it was called")
             receiverCalled = true
-            assert.is(value, 42, "Receiver did not receive the correct value")
+            assert.is(value, 42, "Slot received incorrect value.")
         },
     }
 
     signal.connect(receiver, receiver.handleEvent)
     signal.emit(42)
-    console.log("should be called")
 
-    Promise.resolve().then(() => {
-        console.log("asserting the call")
-        assert.is(receiverCalled, true, "Receiver should have been called")
+    // Ensure that the assertion waits for the emit to resolve
+    return Promise.resolve().then(() => {
+        assert.is(receiverCalled, true, "Slot was not invoked.")
     })
 })
 
@@ -37,15 +35,13 @@ test("Disconnect", () => {
     signal.disconnect(receiver.handleEvent, receiver)
     signal.emit(42)
 
-    return new Promise(resolve => {
-        process.nextTick(() => {
-            assert.is(
-                receiverCalled,
-                false,
-                "Receiver should not have been called after disconnect"
-            )
-            resolve()
-        })
+    // Ensure the assertion runs after the microtask queue is processed
+    return Promise.resolve().then(() => {
+        assert.is(
+            receiverCalled,
+            false,
+            "Slot was invoked after disconnect."
+        )
     })
 })
 
@@ -62,5 +58,4 @@ test("Invalid Arguments", () => {
     }
 })
 
-// Run all the tests
 test.run()
