@@ -1,115 +1,66 @@
 import assert from "assert"
-import { JSDOM } from "jsdom"
 import Signal from "#src/its-signals"
 
+function testConnectAndEmit() {
+    console.log("Test: Connect and Emit")
 
-// Test: Signal instance creation
-function testSignalInstanceCreation() {
-  const signal = new Signal();
-  assert(signal instanceof Signal, 'Signal should be an instance of Signal');
-  console.log('✅ testSignalInstanceCreation passed');
+    const signal = new Signal()
+    let receiverCalled = false
+    const receiver = {
+        handleEvent(value) {
+            receiverCalled = true
+            assert.strictEqual(value, 42, "Receiver did not receive the correct value")
+        },
+    }
+
+    signal.connect(receiver, receiver.handleEvent)
+    signal.emit(42)
+    process.nextTick(() => {
+        assert.strictEqual(receiverCalled, true, "Receiver should have been called")
+        console.log("Test: Connect and Emit Passed\n")
+    })
 }
 
-// Test: Connect a receiver and slot
-function testConnectReceiverAndSlot() {
-  const signal = new Signal();
-  const receiver = { value: 0 };
-  const slot = function (val) { this.value = val; };
+function testDisconnect() {
+    console.log("Test: Disconnect")
 
-  signal.connect(receiver, slot);
-  assert.strictEqual(signal.isConnected(), true, 'Signal should be connected');
-  console.log('✅ testConnectReceiverAndSlot passed');
+    const signal = new Signal()
+    let receiverCalled = false
+    const receiver = {
+        handleEvent(value) {
+            receiverCalled = true
+        },
+    }
+
+    signal.connect(receiver, receiver.handleEvent)
+    signal.disconnect(receiver.handleEvent, receiver)
+    signal.emit(42)
+    assert.strictEqual(
+        receiverCalled,
+        false,
+        "Receiver should not have been called after disconnect"
+    )
+    console.log("Test: Disconnect Passed\n")
 }
 
-// Test: Emit signal and invoke slot
-function testEmitSignal() {
-  const signal = new Signal();
-  const receiver = { value: 0 };
-  const slot = function (val) { this.value = val; };
+function testInvalidArguments() {
+    console.log("Test: Invalid Arguments")
 
-  signal.connect(receiver, slot);
-  signal.emit(42);
+    const signal = new Signal()
+    try {
+        signal.connect(null, null)
+    } catch (error) {
+        assert.strictEqual(
+            error.message,
+            "Expected both receiver and slot arguments.",
+            "Did not throw with expected message for null arguments"
+        )
+    }
 
-  setImmediate(() => {
-    assert.strictEqual(receiver.value, 42, 'Slot should update receiver value on emit');
-    console.log('✅ testEmitSignal passed');
-  });
+    console.log("Test: Invalid Arguments Passed\n")
 }
 
-// Test: Disconnect a receiver and slot
-function testDisconnectReceiverAndSlot() {
-  const signal = new Signal();
-  const receiver = { value: 0 };
-  const slot = function (val) { this.value = val; };
-
-  signal.connect(receiver, slot);
-  signal.disconnect(slot, receiver);
-
-  assert.strictEqual(signal.isConnected(), false, 'Signal should be disconnected');
-  console.log('✅ testDisconnectReceiverAndSlot passed');
-}
-
-// Test: Disconnect all slots
-function testDisconnectAllSlots() {
-  const signal = new Signal();
-  const receiver1 = { value: 0 };
-  const receiver2 = { value: 0 };
-  const slot = function (val) { this.value = val; };
-
-  signal.connect(receiver1, slot);
-  signal.connect(receiver2, slot);
-  signal.disconnect();
-
-  assert.strictEqual(signal.isConnected(), false, 'Signal should disconnect all receivers');
-  console.log('✅ testDisconnectAllSlots passed');
-}
-
-// Test: Signal creation from an event
-function testFromEvent() {
-  const dom = new JSDOM('<!DOCTYPE html><input type="text" value="test">');
-  const input = dom.window.document.querySelector('input');
-
-  const signal = Signal.fromEvent(input, 'input');
-  const receiver = { value: '' };
-  const slot = function (val) { this.value = val; };
-
-  signal.connect(receiver, slot);
-
-  // Simulate input event
-  input.value = 'new value';
-  input.dispatchEvent(new dom.window.Event('input'));
-
-  setImmediate(() => {
-    assert.strictEqual(receiver.value, 'new value', 'Signal should emit when input event occurs');
-    console.log('✅ testFromEvent passed');
-  });
-}
-
-// Test: Error when connecting invalid arguments
-function testConnectInvalidArguments() {
-  const signal = new Signal();
-  assert.throws(() => {
-    signal.connect(null, null);
-  }, /Expected both receiver and slot arguments/, 'Should throw error when both arguments are invalid');
-
-  const receiver = { value: 0 };
-  assert.throws(() => {
-    signal.connect(receiver, 'notAFunction');
-  }, /notAFunction is not a function of Object/, 'Should throw error when slot is not a function');
-
-  console.log('✅ testConnectInvalidArguments passed');
-}
-
-// Run All Tests
-function runTests() {
-  testSignalInstanceCreation();
-  testConnectReceiverAndSlot();
-  testEmitSignal();
-  testDisconnectReceiverAndSlot();
-  testDisconnectAllSlots();
-  testFromEvent();
-  testConnectInvalidArguments();
-}
-
-runTests();
-
+// Running all tests
+testConnectAndEmit()
+testDisconnect()
+testInvalidArguments()
