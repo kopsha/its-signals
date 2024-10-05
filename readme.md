@@ -12,8 +12,8 @@ Common, you know what this is.
 > _-- Yeah._  
 > _-- What is that? It's ridiculous! You don't even know, what hotel she's
   staying at, you can't call her.  
-  That's a **signal**, Jerry, that's a **signal**!_  
+  That's a **signal**, Jerry, THAT'S A **SIGNAL**!_  
 > _-- Maybe you're right._  
-> _-- MAYBE I'm right? Of course I'm right._
+> _-- Maybe I'm right? Of course I'm right._
 
 [![It's signals Jerry, signals!](https://img.youtube.com/vi/IXvuWfLF06A/0.jpg)](https://youtu.be/IXvuWfLF06A)
