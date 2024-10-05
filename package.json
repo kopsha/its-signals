@@ -1,6 +1,6 @@
 {
     "name": "its-signals",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "It's signals Jerry, it's signals.",
     "main": "src/main.js",
     "repository": {
