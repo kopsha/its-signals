@@ -1,31 +1,30 @@
-import assert from "assert"
+import { test } from "uvu"
+import * as assert from "uvu/assert"
+
 import Signal from "#src/its-signals"
 
-function testConnectAndEmit() {
-    console.log("Test: Connect and Emit")
-
+test("Connect and Emit", () => {
     const signal = new Signal()
     let receiverCalled = false
     const receiver = {
         handleEvent(value) {
+            console.log("it was called")
             receiverCalled = true
-            assert.strictEqual(value, 42, "Receiver did not receive the correct value")
+            assert.is(value, 42, "Receiver did not receive the correct value")
         },
     }
 
     signal.connect(receiver, receiver.handleEvent)
     signal.emit(42)
+    console.log("should be called")
 
-    // Wait for the microtask to execute before asserting
-    process.nextTick(() => {
-        assert.strictEqual(receiverCalled, true, "Receiver should have been called")
-        console.log("Test: Connect and Emit Passed\n")
+    Promise.resolve().then(() => {
+        console.log("asserting the call")
+        assert.is(receiverCalled, true, "Receiver should have been called")
     })
-}
+})
 
-function testDisconnect() {
-    console.log("Test: Disconnect")
-
+test("Disconnect", () => {
     const signal = new Signal()
     let receiverCalled = false
     const receiver = {
@@ -38,35 +37,30 @@ function testDisconnect() {
     signal.disconnect(receiver.handleEvent, receiver)
     signal.emit(42)
 
-    // Wait for the microtask to execute before asserting the disconnect behavior
-    process.nextTick(() => {
-        assert.strictEqual(
-            receiverCalled,
-            false,
-            "Receiver should not have been called after disconnect"
-        )
-        console.log("Test: Disconnect Passed\n")
+    return new Promise(resolve => {
+        process.nextTick(() => {
+            assert.is(
+                receiverCalled,
+                false,
+                "Receiver should not have been called after disconnect"
+            )
+            resolve()
+        })
     })
-}
+})
 
-function testInvalidArguments() {
-    console.log("Test: Invalid Arguments")
-
+test("Invalid Arguments", () => {
     const signal = new Signal()
     try {
         signal.connect(null, null)
     } catch (error) {
-        assert.strictEqual(
+        assert.is(
             error.message,
             "Expected both receiver and slot arguments.",
             "Did not throw with expected message for null arguments"
         )
     }
+})
 
-    console.log("Test: Invalid Arguments Passed\n")
-}
-
-// Running all tests
-testConnectAndEmit()
-testDisconnect()
-testInvalidArguments()
+// Run all the tests
+test.run()
