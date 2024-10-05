@@ -13,11 +13,11 @@
         "#src/*": "./src/*.js"
     },
     "scripts": {
-        "test": "node ./src/its-signals.test.js"
+        "test": "vitest"
     },
     "type": "module",
     "version": "0.0.0",
     "devDependencies": {
-        "uvu": "^0.5.6"
+        "vitest": "^2.1.2"
     }
 }
