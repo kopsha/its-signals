@@ -15,6 +15,8 @@ function testConnectAndEmit() {
 
     signal.connect(receiver, receiver.handleEvent)
     signal.emit(42)
+
+    // Wait for the microtask to execute before asserting
     process.nextTick(() => {
         assert.strictEqual(receiverCalled, true, "Receiver should have been called")
         console.log("Test: Connect and Emit Passed\n")
@@ -35,12 +37,16 @@ function testDisconnect() {
     signal.connect(receiver, receiver.handleEvent)
     signal.disconnect(receiver.handleEvent, receiver)
     signal.emit(42)
-    assert.strictEqual(
-        receiverCalled,
-        false,
-        "Receiver should not have been called after disconnect"
-    )
-    console.log("Test: Disconnect Passed\n")
+
+    // Wait for the microtask to execute before asserting the disconnect behavior
+    process.nextTick(() => {
+        assert.strictEqual(
+            receiverCalled,
+            false,
+            "Receiver should not have been called after disconnect"
+        )
+        console.log("Test: Disconnect Passed\n")
+    })
 }
 
 function testInvalidArguments() {
