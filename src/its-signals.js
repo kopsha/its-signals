@@ -27,7 +27,7 @@ export default class Signal {
     }
 
     isConnected() {
-        return boolean(this.#slots)
+        return Boolean(this.#slots)
     }
 
     emit(...args) {
