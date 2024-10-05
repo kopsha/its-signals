@@ -1,8 +1,5 @@
-name: Publish Package to npmjs
-on:
-    push:
-        tags:
-            - "*.*.*"
+name: Build and test
+on: push
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -17,7 +14,10 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
             - run: npm ci
             - run: npm run test
-            - run: npm version ${{ github.ref_name }} --no-git-tag-version
-            - run: npm publish --provenance --access public
+            - name: git describe
+              uses: proudust/gh-describe@v2
+              id: ghd
+            - run: npm version ${{ steps.ghd.outputs.describe }} --no-git-tag-version
+            - run: npm publish --dry-run --provenance --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
