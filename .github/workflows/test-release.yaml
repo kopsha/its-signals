@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: Dry-run package publishing
 on:
   workflow_dispatch:
 jobs:
