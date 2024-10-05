@@ -3,6 +3,7 @@
     "version": "0.0.3",
     "description": "It's signals Jerry, it's signals.",
     "main": "src/main.js",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com/kopsha/signals-js.git"
