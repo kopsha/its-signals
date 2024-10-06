@@ -5,6 +5,7 @@ export default class Signal {
         console.assert(element instanceof EventTarget)
         let instance = new Signal()
         element.addEventListener(event, e => instance.emit(e.target.value))
+        // TODO: Add mechanics to remove this listener
         return instance
     }
 
