@@ -1,6 +1,4 @@
-# It's signals
-
-## It's signals, Jerry. It's signals
+# It's signals, Jerry. It's signals
 
 _-- I can't believe: WE ALREADY DISCUSSED THIS!_  
 _-- Yeah, but how could you be so sure?_  
