@@ -6,7 +6,7 @@
     "main": "src/its-signals.js",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/kopsha/signals-js.git"
+        "url": "git+ssh://git@github.com/kopsha/its-signals.git"
     },
     "private": false,
     "imports": {
