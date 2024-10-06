@@ -1,22 +1,6 @@
 # It's signals
 
-## Motivation
-
-In JavaScript, while event handling is ubiquitous, many libraries deviate from
-the well-established patterns found in other languages, such as the observer
-pattern or the signal-slot mechanism popularized by frameworks like Qt in C++.
-This divergence can make these libraries feel awkward and unintuitive to use.
-The lack of standardized patterns for asynchronous programming often leads to
-fragmented approaches and increased complexity in managing events.
-
-This signals module aims to bridge this gap by introducing a straightforward and
-safe event handling mechanism that aligns with these time-tested patterns. By
-adopting a familiar interface for connecting, emitting, and disconnecting signals
-and slots, it simplifies the process of building responsive and maintainable
-applications in JavaScript.
-
-
-### It's signals, Jerry. It's signals
+## It's signals, Jerry. It's signals
 
 > _-- I can't believe: WE ALREADY DISCUSSED THIS!_  
 > _-- Yeah, but how could you be so sure?_  
@@ -36,7 +20,23 @@ applications in JavaScript.
 [![It's signals Jerry, signals!](https://img.youtube.com/vi/IXvuWfLF06A/0.jpg)](https://youtu.be/IXvuWfLF06A)
 
 
-## Usage guid
+## Motivation
+
+In JavaScript, while event handling is ubiquitous, many libraries deviate from
+the well-established patterns found in other languages, such as the observer
+pattern or the signal-slot mechanism popularized by frameworks like Qt in C++.
+This divergence can make these libraries feel awkward and unintuitive to use.
+The lack of standardized patterns for asynchronous programming often leads to
+fragmented approaches and increased complexity in managing events.
+
+This signals module aims to bridge this gap by introducing a straightforward and
+safe event handling mechanism that aligns with these time-tested patterns. By
+adopting a familiar interface for connecting, emitting, and disconnecting signals
+and slots, it simplifies the process of building responsive and maintainable
+applications in JavaScript.
+
+
+## Usage guide
 
 The `Signal` class provides a way to manage asynchronous event-driven communication
 in your application. You can create signals that emit values, and connect slots
