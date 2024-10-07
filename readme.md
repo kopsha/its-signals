@@ -1,6 +1,6 @@
 # It's signals, Jerry. It's signals
 
-[![npmjs publish](https://github.com/kopsha/its-signals/actions/workflows/release.yaml/badge.svg)](https://github.com/kopsha/its-signals/actions/workflows/release.yaml/badge.svg)
+[![npmjs publish](https://github.com/kopsha/its-signals/actions/workflows/release.yaml/badge.svg)](https://github.com/kopsha/its-signals/actions/workflows/release.yaml)
 [![npm version](https://badge.fury.io/js/its-signals.svg)](https://badge.fury.io/js/its-signals)
 
 ---
