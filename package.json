@@ -13,11 +13,13 @@
         "#src/*": "./src/*.js"
     },
     "scripts": {
-        "test": "vitest"
+        "test": "vitest",
+        "coverage": "vitest run --coverage"
     },
     "type": "module",
     "version": "0.0.0",
     "devDependencies": {
+        "@vitest/coverage-v8": "^2.1.2",
         "vitest": "^2.1.2"
     }
 }
