@@ -1,5 +1,6 @@
 .env
 .yarnrc
+.DS_Store
 
 # Logs
 logs
