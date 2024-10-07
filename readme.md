@@ -1,5 +1,10 @@
 # It's signals, Jerry. It's signals
 
+[![npmjs publish](https://github.com/kopsha/its-signals/actions/workflows/release.yaml/badge.svg)](https://github.com/kopsha/its-signals/actions/workflows/release.yaml/badge.svg)
+[![npm version](https://badge.fury.io/js/its-signals.svg)](https://badge.fury.io/js/its-signals)
+
+---
+
 _-- I can't believe: WE ALREADY DISCUSSED THIS!_  
 _-- Yeah, but how could you be so sure?_  
 _-- 'Cause it's **signals**, Jerry. It's **signals**! Don't you know it.. all
